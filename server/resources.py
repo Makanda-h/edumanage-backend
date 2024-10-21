@@ -283,7 +283,7 @@ class CourseResource(Resource):
             db.session.rollback()
             return {'message': 'An error occurred while creating the course', 'error': str(e)}, 500
         
-        return {'message': 'Course created successfully', 'id': new_course.id}, 201
+        return {'message': 'Course created successfully', }, 201
 
     @jwt_required()
     @role_required('admin')
