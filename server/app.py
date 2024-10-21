@@ -23,4 +23,4 @@ def add_claims_to_access_token(user):
 api.init_app(app)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
