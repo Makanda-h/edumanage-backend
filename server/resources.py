@@ -39,8 +39,6 @@ class UserLogin(Resource):
         return {'message': 'Invalid credentials'}, 401
 
 class UserResource(Resource):
-    @jwt_required()
-    @role_required('admin')
     def get(self, user_id=None):
         if user_id:
             user = User.query.get_or_404(user_id)
@@ -89,8 +87,6 @@ class UserResource(Resource):
         return {'message': 'User deleted successfully'}
 
 class StudentResource(Resource):
-    @jwt_required()
-    @role_required('admin', 'teacher')
     def get(self, student_id=None):
         if student_id:
             student = Student.query.get_or_404(student_id)
@@ -171,8 +167,6 @@ class StudentResource(Resource):
         return {'message': 'Student deleted successfully'}
 
 class TeacherResource(Resource):
-    @jwt_required()
-    @role_required('admin')
     def get(self, teacher_id=None):
         if teacher_id:
             teacher = Teacher.query.get_or_404(teacher_id)
@@ -247,8 +241,6 @@ class TeacherResource(Resource):
         return {'message': 'Teacher deleted successfully'}
 
 class CourseResource(Resource):
-    @jwt_required()
-    @role_required('admin', 'teacher', 'student')
     def get(self, course_id=None):
         if course_id:
             course = Course.query.get_or_404(course_id)
