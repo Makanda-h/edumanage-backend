@@ -184,30 +184,32 @@ class TeacherResource(Resource):
     @role_required('admin')
     def post(self):
         data = request.get_json()
-        
         try:
-            validated_data = validate_course_data(data)
+            validate_teacher_data(data)
         except ValidationError as err:
             return {'errors': err.messages}, 400
-        new_course = Course(
-            course_name=validated_data['course_name'],
-            course_code=validated_data['course_code']
+
+        # Check if all required fields are present
+        required_fields = ['user_id', 'teacher_id', 'name', 'email']
+        for field in required_fields:
+            if field not in data:
+                return {'error': f'{field} is required'}, 400
+        new_teacher = Teacher(
+            user_id=data['user_id'],
+            teacher_id=data['teacher_id'],
+            name=data['name'],
+            email=data['email']
         )
-        
-        if 'teacher_id' in validated_data:
-            teacher = Teacher.query.get(validated_data['teacher_id'])
-            if not teacher:
-                return {'error': 'Teacher not found'}, 404
-            new_course.teachers.append(teacher)
-        
+
         try:
-            db.session.add(new_course)
+            db.session.add(new_teacher)
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-            return {'message': 'An error occurred while creating the course', 'error': str(e)}, 500
-        
-        return {'message': 'Course created successfully', 'id': new_course.id}, 201
+            return {'message': 'An error occurred while creating the teacher', 'error': str(e)}, 500
+
+        return {'message': 'Teacher created successfully'}, 201
+
 
 
     @jwt_required()
