@@ -94,8 +94,7 @@ class StudentResource(Resource):
         students = Student.query.all()
         return student_schema.dump(students, many=True)
 
-    @jwt_required()
-    @role_required('admin')
+    
     def post(self):
         data = request.get_json()
         try:
@@ -128,8 +127,7 @@ class StudentResource(Resource):
         
         return {'message': 'Student created successfully'}, 201
     
-    @jwt_required()
-    @role_required('admin')
+    
     def put(self, student_id):
         student = Student.query.get_or_404(student_id)
         data = request.get_json()
@@ -158,8 +156,7 @@ class StudentResource(Resource):
         updated_student = Student.query.get(student_id)
         return {'message': 'Student updated successfully', 'student': student_schema.dump(updated_student)}, 200
 
-    @jwt_required()
-    @role_required('admin')
+    
     def delete(self, student_id):
         student = Student.query.get_or_404(student_id)
         db.session.delete(student)
@@ -174,8 +171,7 @@ class TeacherResource(Resource):
         teachers = Teacher.query.all()
         return teacher_schema.dump(teachers, many=True)
 
-    @jwt_required()
-    @role_required('admin')
+    
     def post(self):
         data = request.get_json()
         try:
@@ -206,8 +202,7 @@ class TeacherResource(Resource):
 
 
 
-    @jwt_required()
-    @role_required('admin')
+    
     def put(self, teacher_id):
         teacher = Teacher.query.get_or_404(teacher_id)
         data = request.get_json()
@@ -232,8 +227,7 @@ class TeacherResource(Resource):
         return {'message': 'Teacher updated successfully'}, 200
 
 
-    @jwt_required()
-    @role_required('admin')
+    
     def delete(self, teacher_id):
         teacher = Teacher.query.get_or_404(teacher_id)
         db.session.delete(teacher)
@@ -248,8 +242,7 @@ class CourseResource(Resource):
         courses = Course.query.all()
         return course_schema.dump(courses, many=True)
 
-    @jwt_required()
-    @role_required('admin')
+    
     def post(self):
         data = request.get_json()
         
@@ -277,8 +270,7 @@ class CourseResource(Resource):
         
         return {'message': 'Course created successfully', }, 201
 
-    @jwt_required()
-    @role_required('admin')
+    
     def put(self, course_id):
         course = Course.query.get_or_404(course_id)
         data = request.get_json()
@@ -296,8 +288,7 @@ class CourseResource(Resource):
         db.session.commit()
         return {'message': 'Course updated successfully'}
 
-    @jwt_required()
-    @role_required('admin')
+    
     def delete(self, course_id):
         course = Course.query.get_or_404(course_id)
         db.session.delete(course)
